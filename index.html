@@ -3,300 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VectorDBCloud - Vector Database Cloud Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/@tremor/react@3.13.1/dist/tremor.min.css" rel="stylesheet">
+    <title>Vector Database Cloud</title>
     <style>
         body {
-            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f9fafb;
-            color: #111827;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin-left: 1rem;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
-        .header {
-            background-color: white;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            padding: 1rem 0;
-        }
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #111827;
-            text-decoration: none;
-        }
-        .nav {
-            display: flex;
-            gap: 1.5rem;
-        }
-        .nav-link {
-            color: #4b5563;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        .nav-link:hover {
-            color: #111827;
-        }
         .hero {
-            padding: 4rem 0;
+            background-color: #f4f4f4;
+            padding: 3rem 0;
             text-align: center;
         }
         .hero h1 {
             font-size: 2.5rem;
-            font-weight: 800;
             margin-bottom: 1rem;
-            color: #111827;
         }
         .hero p {
-            font-size: 1.25rem;
-            color: #4b5563;
-            max-width: 800px;
-            margin: 0 auto 2rem;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
         }
-        .button {
+        .btn {
             display: inline-block;
-            background-color: #2563eb;
-            color: white;
-            font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
+            background-color: #3498db;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
             text-decoration: none;
-            transition: background-color 0.2s;
+            border-radius: 5px;
         }
-        .button:hover {
-            background-color: #1d4ed8;
+        .btn:hover {
+            background-color: #2980b9;
         }
         .features {
-            padding: 4rem 0;
-            background-color: white;
+            padding: 3rem 0;
         }
         .features h2 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
             text-align: center;
+            margin-bottom: 2rem;
         }
-        .features-grid {
+        .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        .feature-card {
-            background-color: #f9fafb;
-            border-radius: 0.5rem;
+        .feature {
+            background-color: #f9f9f9;
             padding: 1.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .feature-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
+        .feature h3 {
+            margin-top: 0;
         }
-        .feature-card p {
-            color: #4b5563;
-        }
-        .footer {
-            background-color: #1f2937;
-            color: #9ca3af;
-            padding: 2rem 0;
+        footer {
+            background-color: #2c3e50;
+            color: #fff;
             text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
         }
-        .footer a {
-            color: #e5e7eb;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
-        .benefits {
-            padding: 4rem 0;
-            background-color: #f9fafb;
-        }
-        .benefits h2 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .benefit-item {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .benefit-item h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: #2563eb;
-        }
-        .benefit-item p {
-            color: #4b5563;
-        }
-        .industries {
-            padding: 4rem 0;
-            background-color: white;
-        }
-        .industries h2 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        .industries-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .industry-item {
-            background-color: #f9fafb;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-        .industry-item h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            color: #2563eb;
-        }
-        .industry-item p {
-            color: #4b5563;
+        footer a {
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <a href="https://vectordbcloud.com" class="logo">Vector Database Cloud</a>
-            <nav class="nav">
-                <a href="https://ecp.vectordbcloud.com" class="nav-link">Ephemeral Context Protocol</a>
-                <a href="https://agent.vectordbcloud.com" class="nav-link">ECP Agent</a>
-                <a href="https://api.vectordbcloud.com" class="nav-link">API Docs</a>
-                <a href="https://sdk.vectordbcloud.com" class="nav-link">SDK Docs</a>
-                <a href="https://docs.vectordbcloud.com" class="nav-link">Documentation</a>
-            </nav>
-        </div>
+    <header>
+        <a href="https://vectordbcloud.com" class="logo">Vector Database Cloud</a>
+        <nav>
+            <ul>
+                <li><a href="https://vectordbcloud.com">Home</a></li>
+                <li><a href="https://ecp.vectordbcloud.com">ECP Protocol</a></li>
+                <li><a href="https://agent.vectordbcloud.com">Agent</a></li>
+                <li><a href="https://api.vectordbcloud.com">API</a></li>
+                <li><a href="https://sdk.vectordbcloud.com">SDK</a></li>
+                <li><a href="https://docs.vectordbcloud.com">Docs</a></li>
+            </ul>
+        </nav>
     </header>
-
+    
     <section class="hero">
         <div class="container">
-            <h1>Vector Database Cloud Platform</h1>
-            <p>Enterprise-grade vector database infrastructure with Ephemeral Context Protocol (ECP) support, designed for AI-powered applications at scale</p>
-            <a href="#features" class="button">Learn More</a>
+            <h1>Vector Database Cloud</h1>
+            <p>Enterprise-grade vector database solution with Ephemeral Context Protocol (ECP) integration.</p>
+            <a href="#features" class="btn">Learn More</a>
         </div>
     </section>
-
+    
     <section id="features" class="features">
         <div class="container">
-            <h2>Key Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Ephemeral Context Protocol (ECP)</h3>
-                    <p>Our proprietary protocol ensures secure, efficient, and context-aware vector database operations with minimal latency.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Cloud Native Architecture</h3>
-                    <p>Built from the ground up for modern cloud environments with horizontal scalability, high availability, and multi-region deployment capabilities.</p>
-                </div>
-                <div class="feature-card">
+            <h2>Features</h2>
+            <div class="feature-grid">                <div class="feature">
                     <h3>Enterprise-Grade Security</h3>
-                    <p>Production-ready solution with comprehensive security features including FIPS-compliant encryption, role-based access control, audit logging, and compliance with industry standards.</p>
+                    <p>Secure your vector database with enterprise-grade security features including encryption, access controls, and audit logging.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>High Performance</h3>
-                    <p>Optimized for low latency (<5ms) and high throughput (>100k concurrent users) with intelligent caching and distributed processing.</p>
+                <div class="feature">
+                    <h3>Scalable Architecture</h3>
+                    <p>Scale your vector database to handle billions of vectors with our distributed architecture designed for high performance.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Multi-Model Support</h3>
-                    <p>Compatible with leading embedding models and vector database engines, providing flexibility to choose the best tools for your specific use case.</p>
+                <div class="feature">
+                    <h3>Ephemeral Context Protocol</h3>
+                    <p>Leverage the power of the Ephemeral Context Protocol (ECP) for efficient and secure vector operations.</p>
                 </div>
-                <div class="feature-card">
-                    <h3>Seamless Integration</h3>
-                    <p>Comprehensive SDKs for popular programming languages and frameworks, making it easy to integrate with your existing applications.</p>
+                <div class="feature">
+                    <h3>Multi-Modal Support</h3>
+                    <p>Store and query vectors from different modalities including text, images, audio, and more.</p>
                 </div>
-            </div>
+                <div class="feature">
+                    <h3>Advanced Querying</h3>
+                    <p>Perform complex queries with filtering, hybrid search, and semantic search capabilities.</p>
+                </div>
+                <div class="feature">
+                    <h3>Comprehensive SDKs</h3>
+                    <p>Integrate with your applications using our comprehensive SDKs for Python, JavaScript, Java, and more.</p>
+                </div>            </div>
         </div>
     </section>
-
-    <section class="benefits">
-        <div class="container">
-            <h2>Why Choose Vector Database Cloud</h2>
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <h3>Reduced Operational Overhead</h3>
-                    <p>Focus on building AI applications rather than managing complex vector database infrastructure. Our platform handles scaling, backups, and maintenance automatically.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>Cost Optimization</h3>
-                    <p>Pay only for what you use with transparent pricing. Our intelligent resource allocation ensures optimal cost-performance balance for your workloads.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>Enterprise Compliance</h3>
-                    <p>Meet regulatory requirements with built-in compliance features for GDPR, HIPAA, SOC 2, and other standards. Comprehensive audit trails and data governance tools.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>Global Availability</h3>
-                    <p>Deploy your vector databases in multiple regions worldwide with consistent performance and reliability. Automatic geo-replication for disaster recovery.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="industries">
-        <div class="container">
-            <h2>Industries We Serve</h2>
-            <div class="industries-grid">
-                <div class="industry-item">
-                    <h3>Financial Services</h3>
-                    <p>Enhance fraud detection, risk assessment, and personalized financial recommendations with secure, compliant vector search capabilities.</p>
-                </div>
-                <div class="industry-item">
-                    <h3>Healthcare & Life Sciences</h3>
-                    <p>Accelerate research, improve diagnostic accuracy, and enable personalized medicine with high-performance vector databases.</p>
-                </div>
-                <div class="industry-item">
-                    <h3>E-commerce & Retail</h3>
-                    <p>Deliver hyper-personalized product recommendations and semantic search experiences that drive conversion and customer satisfaction.</p>
-                </div>
-                <div class="industry-item">
-                    <h3>Legal & Compliance</h3>
-                    <p>Transform contract analysis, legal research, and regulatory compliance with advanced document understanding and retrieval capabilities.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Vector Database Cloud. All rights reserved.</p>
-            <p>
-                <a href="https://vectordbcloud.com">Home</a> |
-                <a href="https://ecp.vectordbcloud.com">Ephemeral Context Protocol</a> |
-                <a href="https://agent.vectordbcloud.com">ECP Agent</a> |
-                <a href="https://api.vectordbcloud.com">API Documentation</a> |
-                <a href="https://sdk.vectordbcloud.com">SDK Documentation</a> |
-                <a href="https://docs.vectordbcloud.com">Documentation</a>
-            </p>
-        </div>
+    
+    <footer>
+        <p>&copy; 2025 Vector Database Cloud. All rights reserved. <a href="https://vectordbcloud.com">Privacy Policy</a> | <a href="https://vectordbcloud.com">Terms of Service</a></p>
     </footer>
 </body>
 </html>
