@@ -1,0 +1,11 @@
+# Netlify-style redirects for GitHub Pages
+/docs/* /docs/:splat 200
+/sdk/* /sdk/:splat 200
+/agent/* /agent/:splat 200
+/ecp/* /ecp/:splat 200
+
+# Subdomain redirects
+https://docs.vectordbcloud.com/* https://vectordbcloud.com/docs/:splat 301!
+https://sdk.vectordbcloud.com/* https://vectordbcloud.com/sdk/:splat 301!
+https://agent.vectordbcloud.com/* https://vectordbcloud.com/agent/:splat 301!
+https://ecp.vectordbcloud.com/* https://vectordbcloud.com/ecp/:splat 301!

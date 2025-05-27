@@ -202,6 +202,57 @@
             color: #111827;
         }
     </style>
+    <script>
+        // Handle subdomain redirects
+        (function() {
+            const hostname = window.location.hostname;
+            const pathname = window.location.pathname;
+
+            // Check if we're on a subdomain
+            if (hostname.includes('.vectordbcloud.com') && hostname !== 'vectordbcloud.com') {
+                const subdomain = hostname.split('.')[0];
+
+                // If we're on the main domain but need to serve subdomain content
+                if (hostname === 'vectordbcloud.com' && (pathname.startsWith('/docs') || pathname.startsWith('/sdk') || pathname.startsWith('/agent') || pathname.startsWith('/ecp'))) {
+                    // We're already on the right path, do nothing
+                    return;
+                }
+
+                // If we're on a subdomain, redirect to the main domain with the subdomain path
+                if (hostname !== 'vectordbcloud.com') {
+                    const newUrl = `https://vectordbcloud.com/${subdomain}${pathname}`;
+                    window.location.replace(newUrl);
+                    return;
+                }
+            }
+
+            // If we're on the main domain and the path matches a subdomain, load the appropriate content
+            if (hostname === 'vectordbcloud.com' || hostname === 'www.vectordbcloud.com') {
+                if (pathname.startsWith('/docs')) {
+                    loadSubdomainContent('docs');
+                } else if (pathname.startsWith('/sdk')) {
+                    loadSubdomainContent('sdk');
+                } else if (pathname.startsWith('/agent')) {
+                    loadSubdomainContent('agent');
+                } else if (pathname.startsWith('/ecp')) {
+                    loadSubdomainContent('ecp');
+                }
+            }
+
+            function loadSubdomainContent(subdomain) {
+                fetch(`/${subdomain}/index.html`)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.open();
+                        document.write(html);
+                        document.close();
+                    })
+                    .catch(error => {
+                        console.error('Error loading subdomain content:', error);
+                    });
+            }
+        })();
+    </script>
 </head>
 <body>
     <header class="header">
