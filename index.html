@@ -226,6 +226,12 @@
                 }
             }
 
+            // If we're on docs.vectordbcloud.com, redirect to the docs content immediately
+            if (hostname === 'docs.vectordbcloud.com') {
+                window.location.replace('https://vectordbcloud.github.io/docs/');
+                return;
+            }
+
             // If we're on the main domain and the path matches a subdomain, load the appropriate content
             if (hostname === 'vectordbcloud.com' || hostname === 'www.vectordbcloud.com') {
                 if (pathname.startsWith('/docs')) {
@@ -241,7 +247,12 @@
 
             function loadSubdomainContent(subdomain) {
                 fetch(`/${subdomain}/index.html`)
-                    .then(response => response.text())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
                     .then(html => {
                         document.open();
                         document.write(html);
@@ -249,6 +260,8 @@
                     })
                     .catch(error => {
                         console.error('Error loading subdomain content:', error);
+                        // Fallback: redirect to GitHub Pages URL
+                        window.location.replace(`https://vectordbcloud.github.io/${subdomain}/`);
                     });
             }
         })();
