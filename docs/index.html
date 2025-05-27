@@ -4,24 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vector Database Cloud - API Documentation</title>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css" />
+    <link href="https://cdn.jsdelivr.net/npm/@tremor/react@3.13.1/dist/tremor.min.css" rel="stylesheet">
     <style>
-        html {
-            box-sizing: border-box;
-            overflow: -moz-scrollbars-vertical;
-            overflow-y: scroll;
-        }
-        *, *:before, *:after {
-            box-sizing: inherit;
-        }
         body {
-            margin:0;
-            background: #fafafa;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9fafb;
+            color: #111827;
         }
         .header {
-            background-color: #1f2937;
-            color: white;
+            background-color: white;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
             padding: 1rem 0;
             position: sticky;
             top: 0;
@@ -38,7 +32,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: white;
+            color: #111827;
             text-decoration: none;
         }
         .nav {
@@ -46,7 +40,7 @@
             gap: 1.5rem;
         }
         .nav-link {
-            color: #d1d5db;
+            color: #4b5563;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
@@ -54,35 +48,101 @@
             border-radius: 0.375rem;
         }
         .nav-link:hover {
-            color: white;
-            background-color: #374151;
+            color: #111827;
+            background-color: #f3f4f6;
         }
         .nav-link.active {
-            color: #60a5fa;
-            background-color: #1e3a8a;
+            color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
         .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 2rem 0;
+            padding: 3rem 0;
             text-align: center;
         }
         .hero h1 {
             font-size: 2.5rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
         .hero p {
             font-size: 1.25rem;
             opacity: 0.9;
-        }
-        #swagger-ui {
-            max-width: 1200px;
+            max-width: 600px;
             margin: 0 auto;
+        }
+        .api-section {
+            background-color: white;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .section-header {
+            background-color: #f8fafc;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .section-content {
             padding: 2rem;
         }
-        .swagger-ui .topbar {
-            display: none;
+        .endpoint {
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .endpoint-header {
+            background-color: #f8fafc;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .method {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        .method.get { background-color: #dcfce7; color: #166534; }
+        .method.post { background-color: #dbeafe; color: #1e40af; }
+        .method.put { background-color: #fef3c7; color: #92400e; }
+        .method.delete { background-color: #fee2e2; color: #dc2626; }
+        .endpoint-path {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-weight: 500;
+            color: #374151;
+        }
+        .endpoint-description {
+            color: #6b7280;
+            margin-left: auto;
+        }
+        .endpoint-body {
+            padding: 1.5rem;
+        }
+        .code-block {
+            background-color: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: 1rem 0;
         }
         .footer {
             background-color: #1f2937;
@@ -98,6 +158,23 @@
         }
         .footer a:hover {
             text-decoration: underline;
+        }
+        .auth-info {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .auth-info h4 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+        .tremor-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -117,13 +194,424 @@
     </header>
 
     <section class="hero">
-        <div>
+        <div class="container">
             <h1>API Documentation</h1>
-            <p>Complete Swagger-style documentation for Vector Database Cloud REST API with 45+ endpoints</p>
+            <p>Complete API reference for Vector Database Cloud with 45+ endpoints across 9 service categories</p>
         </div>
     </section>
 
-    <div id="swagger-ui"></div>
+    <div class="container">
+        <!-- Authentication Section -->
+        <div class="api-section tremor-card">
+            <div class="section-header">
+                <h2>Authentication</h2>
+            </div>
+            <div class="section-content">
+                <div class="auth-info">
+                    <h4>Required Headers</h4>
+                    <div class="code-block">X-API-Key: your-api-key-here
+Content-Type: application/json
+Accept: application/json</div>
+                </div>
+                <p><strong>Base URL:</strong> <code>https://api.vectordbcloud.com</code></p>
+                <h4>Customer Tiers & API Keys:</h4>
+                <ul>
+                    <li><strong>Free Tier:</strong> <code>IrwAiIQCyR64plNNIijyw1XaUTkEeb4Y4TTlM3CG</code> (10 req/sec, 1K/month)</li>
+                    <li><strong>Basic Tier:</strong> <code>R5VLKOXv3x4zxUjRjUzxS1Izxpgdpb806wwYdj9q</code> (100 req/sec, 10K/month)</li>
+                    <li><strong>Pro Tier:</strong> <code>yJyJ1lP8WD7ShHLSnwHLq8mkIPsqYQWZ55jLpPkj</code> (500 req/sec, 50K/month)</li>
+                    <li><strong>Enterprise Tier:</strong> <code>P4ZljUeg3X4t1RYs8mtpI5tDgF83do5P53NsrAH5</code> (2K req/sec, 1M/month)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Vector Database Endpoints -->
+        <div class="api-section tremor-card">
+            <div class="section-header">
+                <h2>Vector Database Endpoints</h2>
+            </div>
+            <div class="section-content">
+
+                <!-- Weaviate -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/weaviate</span>
+                        <span class="endpoint-description">Get Weaviate status</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Check the operational status of the Weaviate vector database service</p>
+                        <div class="code-block">curl -X GET "https://api.vectordbcloud.com/vectordb/weaviate" \
+  -H "X-API-Key: your-api-key-here"</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/weaviate</span>
+                        <span class="endpoint-description">Query Weaviate</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Execute a GraphQL query against the Weaviate vector database</p>
+                        <div class="code-block">curl -X POST "https://api.vectordbcloud.com/vectordb/weaviate" \
+  -H "X-API-Key: your-api-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": {
+      "Get": {
+        "ClassName": {
+          "field1": "value1",
+          "field2": "value2"
+        }
+      }
+    }
+  }'</div>
+                    </div>
+                </div>
+
+                <!-- Qdrant -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/qdrant</span>
+                        <span class="endpoint-description">Get Qdrant status</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Check the operational status of the Qdrant vector database service</p>
+                        <div class="code-block">curl -X GET "https://api.vectordbcloud.com/vectordb/qdrant" \
+  -H "X-API-Key: your-api-key-here"</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/qdrant</span>
+                        <span class="endpoint-description">Query Qdrant</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Execute a vector similarity search against the Qdrant database</p>
+                        <div class="code-block">curl -X POST "https://api.vectordbcloud.com/vectordb/qdrant" \
+  -H "X-API-Key: your-api-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "collection_name": "my_collection",
+    "query": {
+      "vector": [0.1, 0.2, 0.3, 0.4],
+      "limit": 10,
+      "offset": 0,
+      "with_payload": true,
+      "with_vector": false
+    }
+  }'</div>
+                    </div>
+                </div>
+
+                <!-- ChromaDB -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/chromadb</span>
+                        <span class="endpoint-description">Get ChromaDB status</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Check the operational status of the ChromaDB vector database service</p>
+                        <div class="code-block">curl -X GET "https://api.vectordbcloud.com/vectordb/chromadb" \
+  -H "X-API-Key: your-api-key-here"</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/chromadb</span>
+                        <span class="endpoint-description">Query ChromaDB</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Execute a vector similarity search against the ChromaDB database</p>
+                        <div class="code-block">curl -X POST "https://api.vectordbcloud.com/vectordb/chromadb" \
+  -H "X-API-Key: your-api-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "collection_name": "my_collection",
+    "query_embeddings": [[0.1, 0.2, 0.3, 0.4]],
+    "n_results": 10,
+    "where": {"field_name": "field_value"},
+    "include": ["metadatas", "documents", "distances"]
+  }'</div>
+                    </div>
+                </div>
+
+                <!-- Milvus -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/milvus</span>
+                        <span class="endpoint-description">Get Milvus status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/milvus</span>
+                        <span class="endpoint-description">Query Milvus</span>
+                    </div>
+                </div>
+
+                <!-- Elasticsearch -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/elasticsearch</span>
+                        <span class="endpoint-description">Get Elasticsearch status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/elasticsearch</span>
+                        <span class="endpoint-description">Query Elasticsearch</span>
+                    </div>
+                </div>
+
+                <!-- OpenSearch -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/opensearch</span>
+                        <span class="endpoint-description">Get OpenSearch status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/opensearch</span>
+                        <span class="endpoint-description">Query OpenSearch</span>
+                    </div>
+                </div>
+
+                <!-- Neo4j -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/neo4j</span>
+                        <span class="endpoint-description">Get Neo4j status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/neo4j</span>
+                        <span class="endpoint-description">Query Neo4j</span>
+                    </div>
+                </div>
+
+                <!-- PgVector -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/pgvector</span>
+                        <span class="endpoint-description">Get PgVector status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/pgvector</span>
+                        <span class="endpoint-description">Query PgVector</span>
+                    </div>
+                </div>
+
+                <!-- ClickHouse -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/clickhouse</span>
+                        <span class="endpoint-description">Get ClickHouse status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/clickhouse</span>
+                        <span class="endpoint-description">Query ClickHouse</span>
+                    </div>
+                </div>
+
+                <!-- Redis -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/redis</span>
+                        <span class="endpoint-description">Get Redis status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/redis</span>
+                        <span class="endpoint-description">Query Redis</span>
+                    </div>
+                </div>
+
+                <!-- Pinecone -->
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/vectordb/pinecone</span>
+                        <span class="endpoint-description">Get Pinecone status</span>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/vectordb/pinecone</span>
+                        <span class="endpoint-description">Query Pinecone</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Search Services -->
+        <div class="api-section tremor-card">
+            <div class="section-header">
+                <h2>Search Service Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/search/meilisearch</span>
+                        <span class="endpoint-description">Get Meilisearch status</span>
+                    </div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/search/meilisearch</span>
+                        <span class="endpoint-description">Search with Meilisearch</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Services -->
+        <div class="api-section tremor-card">
+            <div class="section-header">
+                <h2>AI Service Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/ai/ocr</span>
+                        <span class="endpoint-description">OCR Document Processing</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Extract text from documents using OCR (tesseract, smol-docling, doctr engines)</p>
+                    </div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/ai/embeddings</span>
+                        <span class="endpoint-description">Generate Embeddings</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Generate vector embeddings for text using various models</p>
+                    </div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/ai/nlp</span>
+                        <span class="endpoint-description">NLP Processing</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Natural language processing services</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Management Services -->
+        <div class="api-section tremor-card">
+            <div class="section-header">
+                <h2>Management Service Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/management/billing</span>
+                        <span class="endpoint-description">Get billing information</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Retrieve billing information and usage statistics via Stripe metering API</p>
+                    </div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/management/analytics</span>
+                        <span class="endpoint-description">Get analytics data</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Retrieve analytics and usage data via Umami integration</p>
+                    </div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/management/secrets</span>
+                        <span class="endpoint-description">Secret management</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Manage secrets via Infisical integration</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ECP Protocol -->
+        <div class="api-section tremor-card">
+            <div class="section-header">
+                <h2>ECP Protocol Endpoints</h2>
+            </div>
+            <div class="section-content">
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-path">/ecp/status</span>
+                        <span class="endpoint-description">Get ECP status</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Check Ephemeral Context Protocol status and version</p>
+                    </div>
+                </div>
+                <div class="endpoint">
+                    <div class="endpoint-header">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-path">/ecp/gateway</span>
+                        <span class="endpoint-description">ECP Gateway</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <p>Access services through ECP gateway with embedded protocol support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
     <footer class="footer">
         <div>
@@ -139,29 +627,6 @@
         </div>
     </footer>
 
-    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
-    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-standalone-preset.js"></script>
-    <script>
-        window.onload = function() {
-            const ui = SwaggerUIBundle({
-                url: 'https://raw.githubusercontent.com/VectorDBCloud/vectordbcloud.github.io/main/docs/swagger.json',
-                dom_id: '#swagger-ui',
-                deepLinking: true,
-                presets: [
-                    SwaggerUIBundle.presets.apis,
-                    SwaggerUIStandalonePreset
-                ],
-                plugins: [
-                    SwaggerUIBundle.plugins.DownloadUrl
-                ],
-                layout: "StandaloneLayout",
-                tryItOutEnabled: true,
-                requestInterceptor: (request) => {
-                    request.headers['X-API-Key'] = 'your-api-key-here';
-                    return request;
-                }
-            });
-        };
-    </script>
+
 </body>
 </html>
