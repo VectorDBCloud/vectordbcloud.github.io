@@ -1,0 +1,354 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Vector Database Cloud API",
+    "description": "Enterprise-grade vector database platform with Ephemeral Context Protocol (ECP) support, designed for AI-powered applications at scale. Complete API with 45+ endpoints across 9 service categories.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Vector Database Cloud Support",
+      "url": "https://vectordbcloud.com",
+      "email": "support@vectordbcloud.com"
+    },
+    "license": {
+      "name": "Proprietary",
+      "url": "https://vectordbcloud.com/license"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.vectordbcloud.com",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key for authentication. Use one of the tier-specific keys: Free (IrwAiIQCyR64plNNIijyw1XaUTkEeb4Y4TTlM3CG), Basic (R5VLKOXv3x4zxUjRjUzxS1Izxpgdpb806wwYdj9q), Pro (yJyJ1lP8WD7ShHLSnwHLq8mkIPsqYQWZ55jLpPkj), Enterprise (P4ZljUeg3X4t1RYs8mtpI5tDgF83do5P53NsrAH5)"
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer"
+          }
+        }
+      },
+      "ServiceStatus": {
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["operational", "degraded", "down"]
+          },
+          "ecp_version": {
+            "type": "string"
+          },
+          "ecp_embedded": {
+            "type": "string"
+          },
+          "ecp_native": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "WeaviateQuery": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "object"
+          },
+          "variables": {
+            "type": "object"
+          },
+          "operationName": {
+            "type": "string"
+          }
+        }
+      },
+      "QdrantQuery": {
+        "type": "object",
+        "properties": {
+          "collection_name": {
+            "type": "string"
+          },
+          "query": {
+            "type": "object",
+            "properties": {
+              "vector": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "limit": {
+                "type": "integer"
+              },
+              "offset": {
+                "type": "integer"
+              },
+              "with_payload": {
+                "type": "boolean"
+              },
+              "with_vector": {
+                "type": "boolean"
+              }
+            }
+          },
+          "filter": {
+            "type": "object"
+          }
+        }
+      },
+      "ChromaQuery": {
+        "type": "object",
+        "properties": {
+          "collection_name": {
+            "type": "string"
+          },
+          "query_embeddings": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          "n_results": {
+            "type": "integer"
+          },
+          "where": {
+            "type": "object"
+          },
+          "where_document": {
+            "type": "object"
+          },
+          "include": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/vectordb/weaviate": {
+      "get": {
+        "tags": ["Vector Databases"],
+        "summary": "Get Weaviate status",
+        "description": "Check the operational status of the Weaviate vector database service",
+        "responses": {
+          "200": {
+            "description": "Service status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Vector Databases"],
+        "summary": "Query Weaviate",
+        "description": "Execute a GraphQL query against the Weaviate vector database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WeaviateQuery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Query results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vectordb/qdrant": {
+      "get": {
+        "tags": ["Vector Databases"],
+        "summary": "Get Qdrant status",
+        "description": "Check the operational status of the Qdrant vector database service",
+        "responses": {
+          "200": {
+            "description": "Service status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Vector Databases"],
+        "summary": "Query Qdrant",
+        "description": "Execute a vector similarity search against the Qdrant database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QdrantQuery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Query results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vectordb/chromadb": {
+      "get": {
+        "tags": ["Vector Databases"],
+        "summary": "Get ChromaDB status",
+        "description": "Check the operational status of the ChromaDB vector database service",
+        "responses": {
+          "200": {
+            "description": "Service status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceStatus"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Vector Databases"],
+        "summary": "Query ChromaDB",
+        "description": "Execute a vector similarity search against the ChromaDB database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChromaQuery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Query results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Vector Databases",
+      "description": "Vector database operations for Weaviate, Qdrant, ChromaDB, Milvus, Elasticsearch, OpenSearch, Neo4j, PgVector, ClickHouse, Redis, FAISS, LanceDB, and Pinecone"
+    },
+    {
+      "name": "Search Services",
+      "description": "Search and retrieval services including Meilisearch integration"
+    },
+    {
+      "name": "AI Services",
+      "description": "AI and machine learning services including OCR, embeddings, and NLP"
+    },
+    {
+      "name": "Infrastructure",
+      "description": "Infrastructure management and monitoring services"
+    },
+    {
+      "name": "Management",
+      "description": "Account and resource management services"
+    }
+  ]
+}
