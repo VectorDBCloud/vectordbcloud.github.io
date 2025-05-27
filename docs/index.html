@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Database Cloud - API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css" />
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            margin:0;
+            background: #fafafa;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        .header {
+            background-color: #1f2937;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+        }
+        .nav-link:hover {
+            color: white;
+            background-color: #374151;
+        }
+        .nav-link.active {
+            color: #60a5fa;
+            background-color: #1e3a8a;
+        }
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+        #swagger-ui {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .swagger-ui .topbar {
+            display: none;
+        }
+        .footer {
+            background-color: #1f2937;
+            color: #9ca3af;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .footer a {
+            color: #e5e7eb;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="https://vectordbcloud.com" class="logo">Vector Database Cloud</a>
+            <nav class="nav">
+                <a href="https://vectordbcloud.com" class="nav-link">Home</a>
+                <a href="https://ecp.vectordbcloud.com" class="nav-link">ECP</a>
+                <a href="https://agent.vectordbcloud.com" class="nav-link">Agent</a>
+                <a href="https://api.vectordbcloud.com" class="nav-link">API</a>
+                <a href="https://sdk.vectordbcloud.com" class="nav-link">SDK</a>
+                <a href="https://docs.vectordbcloud.com" class="nav-link active">Documentation</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div>
+            <h1>API Documentation</h1>
+            <p>Complete Swagger-style documentation for Vector Database Cloud REST API with 45+ endpoints</p>
+        </div>
+    </section>
+
+    <div id="swagger-ui"></div>
+
+    <footer class="footer">
+        <div>
+            <p>&copy; 2025 Vector Database Cloud. All rights reserved.</p>
+            <p>
+                <a href="https://vectordbcloud.com">Home</a> |
+                <a href="https://ecp.vectordbcloud.com">ECP</a> |
+                <a href="https://agent.vectordbcloud.com">Agent</a> |
+                <a href="https://api.vectordbcloud.com">API</a> |
+                <a href="https://sdk.vectordbcloud.com">SDK</a> |
+                <a href="https://docs.vectordbcloud.com">Documentation</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-standalone-preset.js"></script>
+    <script>
+        window.onload = function() {
+            const ui = SwaggerUIBundle({
+                url: 'https://raw.githubusercontent.com/VectorDBCloud/vectordbcloud.github.io/main/docs/swagger.json',
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout",
+                tryItOutEnabled: true,
+                requestInterceptor: (request) => {
+                    request.headers['X-API-Key'] = 'your-api-key-here';
+                    return request;
+                }
+            });
+        };
+    </script>
+</body>
+</html>
