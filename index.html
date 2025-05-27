@@ -203,32 +203,32 @@
         }
     </style>
     <script>
-        // Handle subdomain redirects
+        // Handle subdomain redirects and content loading
         (function() {
             const hostname = window.location.hostname;
             const pathname = window.location.pathname;
 
-            // Check if we're on a subdomain
-            if (hostname.includes('.vectordbcloud.com') && hostname !== 'vectordbcloud.com') {
-                const subdomain = hostname.split('.')[0];
-
-                // If we're on the main domain but need to serve subdomain content
-                if (hostname === 'vectordbcloud.com' && (pathname.startsWith('/docs') || pathname.startsWith('/sdk') || pathname.startsWith('/agent') || pathname.startsWith('/ecp'))) {
-                    // We're already on the right path, do nothing
-                    return;
-                }
-
-                // If we're on a subdomain, redirect to the main domain with the subdomain path
-                if (hostname !== 'vectordbcloud.com') {
-                    const newUrl = `https://vectordbcloud.com/${subdomain}${pathname}`;
-                    window.location.replace(newUrl);
-                    return;
-                }
+            // If we're on docs.vectordbcloud.com, load the docs content directly
+            if (hostname === 'docs.vectordbcloud.com') {
+                loadSubdomainContent('docs');
+                return;
             }
 
-            // If we're on docs.vectordbcloud.com, redirect to the docs content immediately
-            if (hostname === 'docs.vectordbcloud.com') {
-                window.location.replace('https://vectordbcloud.github.io/docs/');
+            // If we're on sdk.vectordbcloud.com, load the SDK content directly
+            if (hostname === 'sdk.vectordbcloud.com') {
+                loadSubdomainContent('sdk');
+                return;
+            }
+
+            // If we're on agent.vectordbcloud.com, load the agent content directly
+            if (hostname === 'agent.vectordbcloud.com') {
+                loadSubdomainContent('agent');
+                return;
+            }
+
+            // If we're on ecp.vectordbcloud.com, load the ECP content directly
+            if (hostname === 'ecp.vectordbcloud.com') {
+                loadSubdomainContent('ecp');
                 return;
             }
 
@@ -236,17 +236,24 @@
             if (hostname === 'vectordbcloud.com' || hostname === 'www.vectordbcloud.com') {
                 if (pathname.startsWith('/docs')) {
                     loadSubdomainContent('docs');
+                    return;
                 } else if (pathname.startsWith('/sdk')) {
                     loadSubdomainContent('sdk');
+                    return;
                 } else if (pathname.startsWith('/agent')) {
                     loadSubdomainContent('agent');
+                    return;
                 } else if (pathname.startsWith('/ecp')) {
                     loadSubdomainContent('ecp');
+                    return;
                 }
             }
 
             function loadSubdomainContent(subdomain) {
-                fetch(`/${subdomain}/index.html`)
+                // Use the GitHub Pages URL as the source
+                const contentUrl = `https://vectordbcloud.github.io/${subdomain}/index.html`;
+
+                fetch(contentUrl)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -254,9 +261,15 @@
                         return response.text();
                     })
                     .then(html => {
+                        // Replace the entire document with the fetched content
                         document.open();
                         document.write(html);
                         document.close();
+
+                        // Update the page title
+                        if (subdomain === 'docs') {
+                            document.title = 'Vector Database Cloud - Complete API Documentation';
+                        }
                     })
                     .catch(error => {
                         console.error('Error loading subdomain content:', error);
