@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <title>VectorDBCloud Status</title>
     <script>
-        // Immediate redirect to Lambda URL (root path for HTML interface)
-        window.location.replace('https://jzrjg47liwjkjzy5snmvltwnju0vgoly.lambda-url.eu-west-1.on.aws/');
+        // Immediate redirect to Lambda URL (root path for HTML interface) with cache busting
+        const timestamp = new Date().getTime();
+        window.location.replace('https://jzrjg47liwjkjzy5snmvltwnju0vgoly.lambda-url.eu-west-1.on.aws/?t=' + timestamp);
     </script>
     <meta http-equiv="refresh" content="0; url=https://jzrjg47liwjkjzy5snmvltwnju0vgoly.lambda-url.eu-west-1.on.aws/">
 </head>
