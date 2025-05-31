@@ -1,0 +1,25 @@
+{
+  "result": [
+    {
+      "id": "0fe15d7c533348e28a81d0ac2aa0f933",
+      "pattern": "status.vectordbcloud.com/*",
+      "script": null,
+      "request_limit_fail_open": false
+    },
+    {
+      "id": "094a100f533c40abb06e5dc3f1d1ec01",
+      "pattern": "api.vectordbcloud.com/*",
+      "script": null,
+      "request_limit_fail_open": false
+    },
+    {
+      "id": "70ed606b83ea46e590e9a77ce7cfb5a2",
+      "pattern": "vectordbcloud.com/status*",
+      "script": null,
+      "request_limit_fail_open": false
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": []
+}
