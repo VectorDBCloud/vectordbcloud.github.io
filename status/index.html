@@ -110,7 +110,7 @@
                     </p>
                 </div>
             </div>
-            
+
             <!-- Metrics Grid -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div class="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -156,7 +156,7 @@
                             🔄 Refresh
                         </button>
                     </div>
-                    
+
                     <div id="services-container">
                         <!-- Services will be loaded here -->
                     </div>
@@ -170,7 +170,7 @@
                             🔄 Refresh
                         </button>
                     </div>
-                    
+
                     <div id="resolutions-container">
                         <div class="text-center py-8">
                             <div class="text-green-600 text-4xl mb-4">✅</div>
@@ -201,17 +201,25 @@
     <script>
         // Configuration
         const STATUS_API_URL = 'https://5mzkucaww6eh3ezkwut6ckrewu0gajlg.lambda-url.eu-west-1.on.aws/status';
-        
-        // Sample services data
+
+        // Sample services data - 17 services total
         const sampleServices = [
             {name: "Core API", type: "service", status: "operational", latency: "2ms"},
             {name: "User Dashboard", type: "frontend", status: "operational", latency: "1ms"},
             {name: "Admin Panel", type: "frontend", status: "operational", latency: "1ms"},
             {name: "ECP Gateway", type: "service", status: "operational", latency: "1ms"},
+            {name: "ECP Agent", type: "service", status: "operational", latency: "2ms"},
             {name: "Vector Databases", type: "service", status: "operational", latency: "3ms"},
+            {name: "ChromaDB", type: "database", status: "operational", latency: "3ms"},
+            {name: "Qdrant", type: "database", status: "operational", latency: "2ms"},
+            {name: "Milvus", type: "database", status: "operational", latency: "4ms"},
+            {name: "Weaviate", type: "database", status: "operational", latency: "3ms"},
             {name: "AI Processing", type: "service", status: "operational", latency: "4ms"},
             {name: "OCR Service", type: "service", status: "operational", latency: "5ms"},
             {name: "Laminar Analytics", type: "service", status: "operational", latency: "3ms"},
+            {name: "Infisical Security", type: "service", status: "operational", latency: "2ms"},
+            {name: "API Gateway", type: "infrastructure", status: "operational", latency: "1ms"},
+            {name: "Documentation Site", type: "frontend", status: "operational", latency: "1ms"},
             {name: "Status Service", type: "service", status: "operational", latency: "1ms"}
         ];
 
@@ -219,7 +227,7 @@
         function switchTab(tabName) {
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
+
             document.getElementById(tabName + '-tab').classList.add('active');
             document.getElementById(tabName + '-content').classList.add('active');
         }
@@ -227,7 +235,7 @@
         // Load and display services
         function loadServices() {
             const container = document.getElementById('services-container');
-            
+
             container.innerHTML = sampleServices.map(service => `
                 <div class="service-item">
                     <div>
@@ -245,7 +253,7 @@
             const btn = document.getElementById('refresh-btn');
             btn.textContent = '🔄 Refreshing...';
             btn.disabled = true;
-            
+
             setTimeout(() => {
                 loadServices();
                 btn.textContent = '🔄 Refresh';
