@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Database Cloud™ | Compliance-native API layer for enterprise AI/infra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-50: #f0f5ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            
+            --accent-500: #ec4899;
+            --accent-600: #db2777;
+            --accent-700: #be185d;
+            
+            --success-500: #10b981;
+            --warning-500: #f59e0b;
+            --error-500: #ef4444;
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--accent-500) 0%, var(--primary-600) 100%);
+            --gradient-tertiary: linear-gradient(135deg, var(--primary-400) 0%, var(--accent-600) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--slate-900) 0%, var(--slate-800) 50%, var(--slate-700) 100%);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Inter", sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-900);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+        
+        .hero-bg {
+            background: var(--gradient-dark);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%239C92AC" fill-opacity="0.05"><path d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/></g></g></svg>');
+            z-index: 1;
+        }
+        
+        .gradient-bg {
+            background: var(--gradient-dark);
+        }
+        
+        .text-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .feature-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border-color: var(--primary-200);
+        }
+        
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+        
+        .feature-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1), 0 2px 4px -1px rgba(79, 70, 229, 0.06);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1), 0 10px 10px -5px rgba(79, 70, 229, 0.04);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--slate-300);
+            color: var(--slate-700);
+            background: white;
+            transition: all .3s ease;
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary-500);
+            color: var(--primary-600);
+            background: var(--primary-50);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .floating-element {
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(3deg); }
+            66% { transform: translateY(10px) rotate(-3deg); }
+        }
+        
+        @keyframes fade-in-down {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fade-in {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        .animate-fade-in-down {
+            animation-name: fade-in-down;
+        }
+        
+        .animate-fade-in-up {
+            animation-name: fade-in-up;
+        }
+        
+        .animate-fade-in {
+            animation-name: fade-in;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .timeline-connector {
+            width: 2px;
+            background: var(--gradient-primary);
+            height: 100%;
+            left: 6px;
+            top: 0;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color .3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width .3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .section-divider {
+            background: var(--gradient-primary);
+            height: 2px;
+            width: 60px;
+            margin: 2rem 0;
+            border-radius: 1px;
+        }
+        
+        .enterprise-badge {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-database text-blue-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900">Vector Database Cloud™</span>
+                    </div>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#features" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">Features</a>
+                    <a href="#sandbox" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">Sandbox</a>
+                    <a href="#hackathons" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">Hackathons</a>
+                    <a href="#alliance" class="text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium">Alliance</a>
+                    <div class="flex space-x-4">
+                        <a href="#contact" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200">Request Info</a>
+                        <a href="#demo" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 pulse-animation">Book a Briefing</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-bg relative overflow-hidden">
+        <!-- Enhanced gradient backgrounds with more movement -->
+        <div class="absolute inset-0">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 floating-element" style="animation-duration: 15s;"></div>
+            <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 floating-element" style="animation-delay: -5s; animation-duration: 18s;"></div>
+            <div class="absolute bottom-1/4 left-1/3 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 floating-element" style="animation-delay: -10s; animation-duration: 20s;"></div>
+            <div class="absolute top-2/3 right-1/3 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-15 floating-element" style="animation-delay: -7s; animation-duration: 22s;"></div>
+        </div>
+        
+        <!-- Particle effect canvas -->
+        <canvas id="particleCanvas" class="absolute inset-0 w-full h-full z-0"></canvas>
+        
+        <div class="max-w-7xl mx-auto py-20 px-4 sm:py-32 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="enterprise-badge mx-auto mb-8 transform transition-all duration-700 hover:scale-110 inline-flex items-center">
+                <span class="animate-pulse mr-2">✨</span> Enterprise Grade
+            </div>
+            
+            <!-- Enhanced headline with staggered animation -->
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-tight">
+                <span class="block opacity-0 animate-fade-in-down" style="animation-delay: 0.2s; animation-duration: 1s; animation-fill-mode: forwards;">Compliance-native</span>
+                <span class="block text-gradient font-bold opacity-0 animate-fade-in-up" style="animation-delay: 0.5s; animation-duration: 1.2s; animation-fill-mode: forwards;">API layer</span>
+                <span class="block opacity-0 animate-fade-in-down" style="animation-delay: 0.8s; animation-duration: 1s; animation-fill-mode: forwards;">for enterprise AI/infra</span>
+            </h1>
+            
+            <p class="mt-8 max-w-3xl mx-auto text-xl lg:text-2xl text-slate-300 leading-relaxed opacity-0 animate-fade-in" style="animation-delay: 1.1s; animation-duration: 1s; animation-fill-mode: forwards;">
+                Ship compliant AI applications <span class="text-blue-400 font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">10× faster</span> with battle-tested infrastructure. 
+                <br>
+                Zero compliance headaches. Zero vendor lock-in. Pure innovation velocity.
+            </p>
+            
+            <div class="mt-12 flex flex-col sm:flex-row justify-center gap-6 opacity-0 animate-fade-in-up" style="animation-delay: 1.4s; animation-duration: 1s; animation-fill-mode: forwards;">
+                <a href="#demo" class="btn-primary flex items-center justify-center px-8 py-4 border border-transparent text-lg font-medium rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:-translate-y-1">
+                    <i class="far fa-calendar-alt mr-3 text-xl"></i> Book a Briefing
+                </a>
+                <a href="#contact" class="btn-outline flex items-center justify-center px-8 py-4 border-2 border-slate-300 text-lg font-medium rounded-xl text-slate-700 hover:border-blue-400 hover:text-blue-600 transform transition-all duration-300 hover:-translate-y-1">
+                    <i class="fas fa-download mr-3 text-xl"></i> Download Datasheet
+                </a>
+            </div>
+            
+            <!-- Enhanced stats with icons and hover effects -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center opacity-0 animate-fade-in" style="animation-delay: 1.7s; animation-duration: 1s; animation-fill-mode: forwards;">
+                <div class="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all duration-500 hover:scale-105">
+                    <div class="text-blue-400 mb-2"><i class="fas fa-cloud-upload-alt text-2xl"></i></div>
+                    <div class="text-3xl font-bold text-white">BYOC</div>
+                    <div class="text-sm text-slate-400 mt-1">Support</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:border-green-500/30 transition-all duration-500 hover:scale-105">
+                    <div class="text-green-400 mb-2"><i class="fas fa-chart-line text-2xl"></i></div>
+                    <div class="text-3xl font-bold text-white">99.9%</div>
+                    <div class="text-sm text-slate-400 mt-1">Uptime SLA</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all duration-500 hover:scale-105">
+                    <div class="text-purple-400 mb-2"><i class="fas fa-server text-2xl"></i></div>
+                    <div class="text-3xl font-bold text-white">On-Prem</div>
+                    <div class="text-sm text-slate-400 mt-1">Options</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all duration-500 hover:scale-105">
+                    <div class="text-cyan-400 mb-2"><i class="fas fa-headset text-2xl"></i></div>
+                    <div class="text-3xl font-bold text-white">24/7</div>
+                    <div class="text-sm text-slate-400 mt-1">Support</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 opacity-0 animate-fade-in" style="animation-delay: 2s; animation-duration: 1s; animation-fill-mode: forwards;">
+            <div class="animate-bounce w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-white/70 rounded-full mt-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="py-20 lg:py-32 bg-gradient-to-b from-white to-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center">
+                <span class="enterprise-badge mx-auto mb-4">Enterprise Ready</span>
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Why Enterprises Choose Us</h2>
+                <p class="mt-4 text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                    The only platform that <span class="text-gradient">bakes compliance</span> into every layer
+                </p>
+                <div class="section-divider mx-auto"></div>
+            </div>
+
+            <div class="mt-16 lg:mt-24">
+                <div class="grid grid-cols-1 gap-8 lg:gap-12 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 relative group">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <i class="fas fa-shield-alt text-4xl text-blue-600 opacity-10 group-hover:opacity-30 transition-opacity"></i>
+                        </div>
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg">
+                            <i class="fas fa-shield-alt text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-semibold text-slate-900">Compliance by Design</h3>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                            GDPR, HIPAA, PCI-DSS ready. Built-in compliance frameworks for regulated industries with automated policy enforcement.
+                        </p>
+                        <div class="mt-6 flex items-center text-sm text-blue-600 font-medium">
+                            <span>Learn more</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 relative group">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <i class="fas fa-plug text-4xl text-purple-600 opacity-10 group-hover:opacity-30 transition-opacity"></i>
+                        </div>
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-lg">
+                            <i class="fas fa-plug text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-semibold text-slate-900">Unified API Layer</h3>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                            Open Banking–style standard for AI/infra. Single interface for all operations with REST & GraphQL support.
+                        </p>
+                        <div class="mt-6 flex items-center text-sm text-purple-600 font-medium">
+                            <span>View documentation</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 relative group">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <i class="fas fa-barcode text-4xl text-green-600 opacity-10 group-hover:opacity-30 transition-opacity"></i>
+                        </div>
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-green-500 to-teal-600 text-white shadow-lg">
+                            <i class="fas fa-barcode text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-semibold text-slate-900">SKU-First Model</h3>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                            Every database, connector, and workflow is a SKU. Simplified procurement with enterprise licensing.
+                        </p>
+                        <div class="mt-6 flex items-center text-sm text-green-600 font-medium">
+                            <span>Browse marketplace</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 relative group">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <i class="fas fa-cloud text-4xl text-cyan-600 opacity-10 group-hover:opacity-30 transition-opacity"></i>
+                        </div>
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-lg">
+                            <i class="fas fa-cloud text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-semibold text-slate-900">Multi-Cloud & BYOC</h3>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                            AWS, Azure, GCP, Hetzner, GovCloud roadmap. Bring your own cloud with zero vendor lock-in.
+                        </p>
+                        <div class="mt-6 flex items-center text-sm text-cyan-600 font-medium">
+                            <span>Cloud options</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 relative group">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <i class="fas fa-flask text-4xl text-orange-600 opacity-10 group-hover:opacity-30 transition-opacity"></i>
+                        </div>
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-orange-500 to-red-600 text-white shadow-lg">
+                            <i class="fas fa-flask text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-semibold text-slate-900">Enterprise Sandbox</h3>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                            Test, validate, and deploy with zero overhead. Dedicated environments with full compliance controls.
+                        </p>
+                        <div class="mt-6 flex items-center text-sm text-orange-600 font-medium">
+                            <span>Get access</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="feature-card p-8 bg-white rounded-2xl border border-slate-200 relative group">
+                        <div class="absolute top-0 right-0 mt-4 mr-4">
+                            <i class="fas fa-chart-line text-4xl text-indigo-600 opacity-10 group-hover:opacity-30 transition-opacity"></i>
+                        </div>
+                        <div class="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg">
+                            <i class="fas fa-chart-line text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-2xl font-semibold text-slate-900">ROI Focused</h3>
+                        <p class="mt-3 text-base text-slate-600 leading-relaxed">
+                            Reduce time-to-market by 80%, cut compliance costs by 50%. Proven ROI across Fortune 500.
+                        </p>
+                        <div class="mt-6 flex items-center text-sm text-indigo-600 font-medium">
+                            <span>Calculate ROI</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sandbox Section -->
+    <div id="sandbox" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-6">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <span class="block">Experiment safely, validate quickly,</span>
+                        <span class="block text-blue-600">and scale confidently.</span>
+                    </h2>
+                    <p class="mt-3 text-lg text-gray-500">
+                        Our sandbox provides dedicated test environments with seamless onboarding for enterprise data teams. Compliance is built-in, even in test mode.
+                    </p>
+                    <div class="mt-8">
+                        <div class="inline-flex rounded-md shadow">
+                            <a href="#sandbox-apply" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                Apply for Sandbox Access
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0 lg:col-span-6">
+                    <div class="relative rounded-xl overflow-hidden shadow-2xl mb-8 border border-gray-200">
+                        <div class="bg-slate-900 p-4 flex items-center space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <div class="flex-1 text-center text-gray-300 text-sm font-mono">sandbox.vectordbcloud.com</div>
+                        </div>
+                        <div class="bg-white p-6">
+                            <div class="flex space-x-4 mb-6">
+                                <div class="flex-1">
+                                    <div class="text-sm text-gray-500 mb-1">API Endpoint</div>
+                                    <div class="font-mono text-sm bg-gray-100 p-2 rounded">https://api.vectordbcloud.com/v1/query</div>
+                                </div>
+                                <button class="self-end bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Test</button>
+                            </div>
+                            <div class="border rounded-lg overflow-hidden">
+                                <div class="bg-gray-100 px-4 py-2 text-sm font-mono border-b">// Example query</div>
+                                <pre class="p-4 text-xs bg-gray-50 overflow-x-auto">
+{
+  "collection": "financial_transactions",
+  "vector": [0.12, 0.45, 0.78, ...],
+  "filters": {
+    "compliance_level": "pci_dss",
+    "date_range": {"start": "2024-01-01", "end": "2024-03-31"}
+  },
+  "top_k": 10
+}</pre>
+                            </div>
+                            <div class="mt-4 grid grid-cols-3 gap-2">
+                                <div class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded text-center">GDPR Ready</div>
+                                <div class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded text-center">HIPAA Compliant</div>
+                                <div class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded text-center">PCI DSS</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Sandbox Features</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-base text-gray-700">Dedicated test environments</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-base text-gray-700">Seamless onboarding for enterprise data teams</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-base text-gray-700">Compliant-by-design even in test mode</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-base text-gray-700">Pre-configured compliance frameworks</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-base text-gray-700">Sample datasets for quick validation</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hackathons Section -->
+    <div id="hackathons" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Hackathons</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Innovation thrives in open collaboration
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Our hackathons let teams build AI-powered, compliance-native prototypes on top of Vector Database Cloud™.
+                </p>
+            </div>
+
+            <div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                        <i class="fas fa-store text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Access to sandbox + connectors marketplace</h3>
+                    <p class="text-gray-500">
+                        Get full access to our platform and marketplace to build innovative solutions.
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                        <i class="fas fa-chalkboard-teacher text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Mentorship from VDB Alliance experts</h3>
+                    <p class="text-gray-500">
+                        Learn from industry experts who can guide your team to success.
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white mb-4">
+                        <i class="fas fa-building text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Enterprise & regulated themes</h3>
+                    <p class="text-gray-500">
+                        Focus on real-world challenges in finance, healthcare, and government sectors.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="#hackathon-register" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                    Register for Hackathon
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pilot Programs Section -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Pilot Programs</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Choose your path to innovation
+                </p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+                <!-- Regulated Pilot -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-blue-600">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 bg-blue-100 p-2 rounded-md">
+                            <i class="fas fa-lock text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="ml-3 text-lg font-medium text-gray-900">Regulated Pilot</h3>
+                    </div>
+                    <p class="text-gray-500">
+                        Compliance-first deployments for finance, healthcare, and government sectors. All the guardrails you need with the flexibility you want.
+                    </p>
+                    <div class="mt-6">
+                        <a href="#regulated-pilot" class="text-blue-600 hover:text-blue-800 font-medium">
+                            Apply for Regulated Pilot <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Non-Regulated Pilot -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-green-600">
+                    <div class="flex items-center mb-4">
+                        <div class="flex-shrink-0 bg-green-100 p-2 rounded-md">
+                            <i class="fas fa-bolt text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="ml-3 text-lg font-medium text-gray-900">Non-Regulated Pilot</h3>
+                    </div>
+                    <p class="text-gray-500">
+                        Speed + flexibility for startups & SMEs. Get started quickly with our streamlined onboarding process.
+                    </p>
+                    <div class="mt-6">
+                        <a href="#non-regulated-pilot" class="text-green-600 hover:text-green-800 font-medium">
+                            Apply for Non-Regulated Pilot <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alliance Program Section -->
+    <div id="alliance" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-7">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        <span class="block">The Expert Alliance Program™</span>
+                    </h2>
+                    <p class="mt-3 text-lg text-gray-500">
+                        Empowers consultants, integrators, and domain experts to deliver end-to-end solutions for enterprise clients while monetizing their expertise.
+                    </p>
+                    <div class="mt-8">
+                        <div class="inline-flex rounded-md shadow">
+                            <a href="#alliance-join" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                Join the Alliance
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0 lg:col-span-5">
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Alliance Benefits</h3>
+                        <ul class="space-y-4">
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-money-bill-wave text-blue-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Monetize expertise by publishing SKUs</p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-network-wired text-blue-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Join a compliance-native innovation ecosystem</p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-handshake text-blue-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Access to enterprise clients</p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-certificate text-blue-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Certification programs</p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-chart-line text-blue-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Revenue sharing opportunities</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOI Section -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white shadow rounded-lg p-8">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                    <div class="lg:col-span-7">
+                        <h2 class="text-2xl font-bold text-gray-900">Letter of Intent (LOI)</h2>
+                        <p class="mt-3 text-lg text-gray-500">
+                            For enterprises seeking early partnership and priority onboarding. Secure discounted pilot tiers and influence our roadmap.
+                        </p>
+                        <div class="mt-6">
+                            <a href="#loi-submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                Submit LOI
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-8 lg:mt-0 lg:col-span-5">
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-medium text-blue-800 mb-4">LOI Benefits</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-percentage text-blue-600"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-blue-700">Secure discounted pilot tiers</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-road text-blue-600"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-blue-700">Influence roadmap (GovCloud, sovereign, sector-specific SKUs)</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-bullhorn text-blue-600"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-blue-700">Public partner recognition</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-clock text-blue-600"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-blue-700">Priority onboarding</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connectors & Marketplace Section -->
+    <div class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Connectors & Marketplace</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Plug-and-play connectors for enterprise data sources
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Marketplace to discover, publish, and monetize SKUs. Expanding monthly with community + alliance contributions.
+                </p>
+            </div>
+
+            <div class="mt-12">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden mb-16 border border-gray-200">
+                    <div class="bg-slate-900 p-6 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-white">Connector Marketplace</h3>
+                        <div class="relative">
+                            <input type="text" placeholder="Search connectors..." class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm w-64">
+                            <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6">
+                        <div class="flex space-x-4 mb-6">
+                            <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">All</div>
+                            <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Financial</div>
+                            <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Healthcare</div>
+                            <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Banking</div>
+                            <div class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Government</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Oracle Connector -->
+                            <div class="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-database text-2xl text-red-600"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-bold">Oracle DB</h4>
+                                        <div class="text-xs text-gray-500">Financial Systems</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">Secure connector for Oracle Database with built-in PCI DSS compliance.</p>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-1">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">SQL</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">GDPR</span>
+                                    </div>
+                                    <button class="text-blue-600 text-sm font-medium">View Details</button>
+                                </div>
+                            </div>
+                            
+                            <!-- MS SQL Server Connector -->
+                            <div class="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-server text-2xl text-blue-600"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-bold">MS SQL Server</h4>
+                                        <div class="text-xs text-gray-500">Healthcare Data</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">HIPAA-compliant connector for Microsoft SQL Server databases.</p>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-1">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">T-SQL</span>
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">HIPAA</span>
+                                    </div>
+                                    <button class="text-blue-600 text-sm font-medium">View Details</button>
+                                </div>
+                            </div>
+                            
+                            <!-- SWIFT Connector -->
+                            <div class="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-money-bill-wave text-2xl text-green-600"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-bold">SWIFT Network</h4>
+                                        <div class="text-xs text-gray-500">Banking Transactions</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">Secure banking transactions connector with end-to-end encryption.</p>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-1">
+                                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">ISO 20022</span>
+                                        <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">SWIFT</span>
+                                    </div>
+                                    <button class="text-blue-600 text-sm font-medium">View Details</button>
+                                </div>
+                            </div>
+                            
+                            <!-- SEPA Connector -->
+                            <div class="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-euro-sign text-2xl text-purple-600"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-bold">SEPA Payments</h4>
+                                        <div class="text-xs text-gray-500">EU Banking Standard</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">SEPA-compliant payment processing for European financial institutions.</p>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-1">
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">XML</span>
+                                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">SEPA</span>
+                                    </div>
+                                    <button class="text-blue-600 text-sm font-medium">View Details</button>
+                                </div>
+                            </div>
+                            
+                            <!-- HL7 FHIR Connector -->
+                            <div class="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-heartbeat text-2xl text-pink-600"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-bold">HL7 FHIR</h4>
+                                        <div class="text-xs text-gray-500">Healthcare Interop</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">Healthcare data interoperability with HL7 FHIR standard compliance.</p>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-1">
+                                        <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">JSON</span>
+                                        <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">HL7</span>
+                                    </div>
+                                    <button class="text-blue-600 text-sm font-medium">View Details</button>
+                                </div>
+                            </div>
+                            
+                            <!-- AWS Connector -->
+                            <div class="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <i class="fab fa-aws text-2xl text-orange-600"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="font-bold">AWS S3</h4>
+                                        <div class="text-xs text-gray-500">Cloud Storage</div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-4">Secure, compliant connection to AWS S3 storage with encryption.</p>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex space-x-1">
+                                        <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">REST</span>
+                                        <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">SSE</span>
+                                    </div>
+                                    <button class="text-blue-600 text-sm font-medium">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 text-center">
+                            <button class="bg-white border border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50">
+                                View All Connectors
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Roadmap Section -->
+    <div class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-base text-blue-600 font-semibold tracking-wide uppercase">Roadmap</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Our vision for the future
+                </p>
+            </div>
+
+            <div class="mt-12">
+                <div class="lg:grid lg:grid-cols-3 lg:gap-8">
+                    <!-- Now -->
+                    <div class="relative timeline-item">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-5 w-5 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center">
+                                <div class="h-2 w-2 rounded-full bg-white"></div>
+                            </div>
+                            <h3 class="ml-2 text-lg font-medium text-blue-600">Now</h3>
+                        </div>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Sandbox</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Alliance Program</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Connectors Marketplace</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Next -->
+                    <div class="relative mt-12 lg:mt-0 timeline-item">
+                        <h3 class="text-lg font-medium text-blue-600">Next</h3>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-hourglass-half text-yellow-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">AWS Marketplace</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-hourglass-half text-yellow-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Multi-cloud rollouts</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-hourglass-half text-yellow-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Enhanced compliance modules</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Later -->
+                    <div class="relative mt-12 lg:mt-0 timeline-item">
+                        <h3 class="text-lg font-medium text-blue-600">Later</h3>
+                        <ul class="mt-4 space-y-3">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="far fa-clock text-gray-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">GovCloud</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="far fa-clock text-gray-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Sovereign cloud</p>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <i class="far fa-clock text-gray-500"></i>
+                                </div>
+                                <p class="ml-3 text-gray-700">Private enterprise editions</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROI Section -->
+    <div class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+                <div class="lg:col-span-5">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                        Transform Your AI Economics
+                    </h2>
+                    <div class="mt-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Reduce time to market by 80%</p>
+                        </div>
+                        <div class="mt-4 flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Cut compliance costs by 50%</p>
+                        </div>
+                        <div class="mt-4 flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Avoid multi-million fines & reputational risk</p>
+                        </div>
+                        <div class="mt-4 flex items-start">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                            </div>
+                            <p class="ml-3 text-lg text-gray-700">Open new revenue streams via marketplace SKUs</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 lg:mt-0 lg:col-span-7">
+                    <div class="bg-gray-50 p-8 rounded-lg">
+                        <div class="flex justify-between mb-6">
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500">Legacy Approach</div>
+                                <div class="mt-2 text-2xl font-bold text-red-500">$1.2M</div>
+                                <div class="mt-1 text-sm text-gray-500">Annual Compliance Cost</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500">With VDB Cloud</div>
+                                <div class="mt-2 text-2xl font-bold text-green-500">$600K</div>
+                                <div class="mt-1 text-sm text-gray-500">Annual Compliance Cost</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4">
+                            <div class="bg-green-500 h-4 rounded-full" style="width: 50%"></div>
+                        </div>
+                        <div class="mt-6 flex justify-between">
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500">Legacy Approach</div>
+                                <div class="mt-2 text-2xl font-bold text-red-500">6-12 Months</div>
+                                <div class="mt-1 text-sm text-gray-500">Time to Market</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-sm font-medium text-gray-500">With VDB Cloud</div>
+                                <div class="mt-2 text-2xl font-bold text-green-500">1-2 Months</div>
+                                <div class="mt-1 text-sm text-gray-500">Time to Market</div>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-4 mt-2">
+                            <div class="bg-green-500 h-4 rounded-full" style="width: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOMO Section -->
+    <div class="gradient-bg">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                <span class="block">The AI race is won by those who move fastest without breaking compliance</span>
+                <span class="block">Will you be first to market or last to comply?</span>
+            </h2>
+            <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#demo" class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 md:py-4 md:text-lg md:px-10">
+                    <i class="far fa-calendar-alt mr-2"></i> Book a Briefing
+                </a>
+                <a href="#contact" class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 bg-opacity-60 hover:bg-opacity-70 md:py-4 md:text-lg md:px-10">
+                    Request More Info
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
+                <div class="col-span-2 lg:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-database text-3xl text-blue-500 mr-3"></i>
+                        <div>
+                            <h3 class="text-white text-xl font-bold">Vector Database Cloud™</h3>
+                            <p class="text-gray-400 text-sm">Compliance-Native API Layer</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm max-w-sm">
+                        The enterprise-grade platform for building compliant AI applications at scale. Zero compliance headaches, maximum innovation velocity.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Products</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#sandbox" class="text-gray-300 hover:text-white text-sm transition-colors">Sandbox</a></li>
+                        <li><a href="#marketplace" class="text-gray-300 hover:text-white text-sm transition-colors">Marketplace</a></li>
+                        <li><a href="#connectors" class="text-gray-300 hover:text-white text-sm transition-colors">Connectors</a></li>
+                        <li><a href="#pricing" class="text-gray-300 hover:text-white text-sm transition-colors">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Programs</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#hackathons" class="text-gray-300 hover:text-white text-sm transition-colors">Hackathons</a></li>
+                        <li><a href="#pilot" class="text-gray-300 hover:text-white text-sm transition-colors">Pilot Programs</a></li>
+                        <li><a href="#alliance" class="text-gray-300 hover:text-white text-sm transition-colors">Alliance</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#docs" class="text-gray-300 hover:text-white text-sm transition-colors">Documentation</a></li>
+                        <li><a href="#roadmap" class="text-gray-300 hover:text-white text-sm transition-colors">Roadmap</a></li>
+                        <li><a href="#blog" class="text-gray-300 hover:text-white text-sm transition-colors">Blog</a></li>
+                        <li><a href="#whitepapers" class="text-gray-300 hover:text-white text-sm transition-colors">Whitepapers</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-sm font-semibold tracking-wider uppercase mb-4">Company</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-300 hover:text-white text-sm transition-colors">About</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-white text-sm transition-colors">Contact</a></li>
+                        <li><a href="#careers" class="text-gray-300 hover:text-white text-sm transition-colors">Careers</a></li>
+                        <li><a href="#security" class="text-gray-300 hover:text-white text-sm transition-colors">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-16 border-t border-slate-800 pt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="md:order-2">
+                        <div class="flex space-x-6 justify-center md:justify-end">
+                            <a href="https://x.com/vectordbcloud" target="_blank" class="text-gray-400 hover:text-white text-2xl transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://linkedin.com/company/vectordbcloud" target="_blank" class="text-gray-400 hover:text-white text-2xl transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/vectordbcloud" target="_blank" class="text-gray-400 hover:text-white text-2xl transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="md:order-1">
+                        <p class="text-gray-400 text-sm text-center md:text-left">
+                            &copy; 2025 Vector Database Cloud™. All rights reserved.
+                        </p>
+                        <p class="text-gray-400 text-sm text-center md:text-left">
+                            Privacy | Terms | Cookie Policy
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu (hidden by default) -->
+    <div class="hidden md:hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="#features" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50">Features</a>
+            <a href="#sandbox" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50">Sandbox</a>
+            <a href="#hackathons" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50">Hackathons</a>
+            <a href="#alliance" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50">Alliance</a>
+            <div class="pt-4 pb-3 border-t border-gray-200">
+                <div class="mt-3 space-y-1">
+                    <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-blue-600 hover:bg-gray-50">Request Info</a>
+                    <a href="#demo" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700">Book a Briefing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('button[aria-controls="mobile-menu"]');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !expanded);
+                mobileMenu.classList.toggle('hidden');
+                
+                // Animate hamburger icon
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.replace('fa-bars', 'fa-times');
+                } else {
+                    icon.classList.replace('fa-times', 'fa-bars');
+                }
+            });
+            
+            // Particle effect for hero section
+            const initParticles = () => {
+                const canvas = document.getElementById('particleCanvas');
+                if (!canvas) return;
+                
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                
+                const particles = [];
+                const particleCount = 100;
+                
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.size = Math.random() * 2 + 1;
+                        this.speedX = Math.random() * 1 - 0.5;
+                        this.speedY = Math.random() * 1 - 0.5;
+                        this.color = `rgba(255, 255, 255, ${Math.random() * 0.05})`;
+                    }
+                    
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        
+                        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                    }
+                    
+                    draw() {
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                
+                const createParticles = () => {
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new Particle());
+                    }
+                };
+                
+                const animateParticles = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    for (let i = 0; i < particles.length; i++) {
+                        particles[i].update();
+                        particles[i].draw();
+                    }
+                    
+                    // Connect particles with lines
+                    for (let i = 0; i < particles.length; i++) {
+                        for (let j = i; j < particles.length; j++) {
+                            const dx = particles[i].x - particles[j].x;
+                            const dy = particles[i].y - particles[j].y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            
+                            if (distance < 100) {
+                                ctx.beginPath();
+                                ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 - distance/1000})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    
+                    requestAnimationFrame(animateParticles);
+                };
+                
+                createParticles();
+                animateParticles();
+                
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+            };
+            
+            initParticles();
+            
+            // Add intersection observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in-up');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe feature cards and other elements
+            document.querySelectorAll('.feature-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
